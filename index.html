@@ -1,0 +1,345 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reward PK - Earn Points</title>
+<style>
+:root {
+  --green: #087f5b;
+  --light: #e8f7ef;
+  --dark: #17352b;
+  --muted: #66756e;
+  --white: #ffffff;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f7f5;
+  color: var(--dark);
+}
+header {
+  background: var(--green);
+  color: white;
+  padding: 22px 18px;
+}
+.header-inner, main {
+  max-width: 760px;
+  margin: auto;
+}
+.brand { font-size: 27px; font-weight: bold; }
+.tagline { margin-top: 6px; font-size: 14px; }
+main { padding: 18px 14px 40px; }
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 15px;
+  box-shadow: 0 3px 12px #17352b0b;
+}
+.balance {
+  background: linear-gradient(135deg, #087f5b, #16a085);
+  color: white;
+}
+.small { font-size: 13px; opacity: .85; }
+.points { font-size: 38px; font-weight: bold; margin: 10px 0; }
+h2 { font-size: 19px; margin: 0 0 14px; }
+h3 { font-size: 16px; margin: 0 0 8px; }
+p { line-height: 1.5; }
+.task {
+  border: 1px solid #e3ece7;
+  border-radius: 12px;
+  padding: 14px;
+  margin: 10px 0;
+}
+.task-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.reward { color: var(--green); font-weight: bold; }
+button {
+  border: 0;
+  border-radius: 9px;
+  padding: 11px 15px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  background: var(--green);
+  color: white;
+}
+button:disabled { background: #aab8b1; cursor: not-allowed; }
+.secondary { background: var(--light); color: var(--green); }
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin: 7px 0 14px;
+  border: 1px solid #d6e2db;
+  border-radius: 9px;
+  background: white;
+  font-size: 15px;
+}
+label { font-size: 14px; font-weight: bold; }
+.notice {
+  background: #fff6dc;
+  color: #654e12;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+#message { font-size: 14px; margin-top: 10px; }
+.history-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #edf1ee;
+  font-size: 14px;
+}
+footer {
+  text-align: center;
+  padding: 18px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.pill {
+  display: inline-block;
+  background: var(--light);
+  color: var(--green);
+  border-radius: 20px;
+  padding: 5px 9px;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+@media (max-width: 420px) {
+  .task-row { align-items: flex-start; }
+  .task-row button { padding: 10px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">🇵🇰 Reward PK</div>
+    <div class="tagline">Complete tasks. Collect points. Support local businesses.</div>
+  </div>
+</header>
+
+<main>
+  <section class="card balance">
+    <div class="small">YOUR DEMO POINTS BALANCE</div>
+    <div class="points"><span id="points">0</span> pts</div>
+    <div class="small">Demo points have no cash value.</div>
+  </section>
+
+  <section class="card">
+    <h2>👋 Welcome to Reward PK!</h2>
+    <p>Discover promotions from local businesses and try sample activities to collect demo points.</p>
+    <div class="notice">
+      <strong>Demo only:</strong> No real money is earned or paid. Do not send your Easypaisa PIN, OTP or password to anyone.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>🎯 Daily Tasks</h2>
+    <p class="small">Try each sample task once per day.</p>
+
+    <div class="task">
+      <div class="task-row">
+        <div>
+          <h3>📖 Read today's tip</h3>
+          <div class="small">Read a short saving tip.</div>
+          <div class="reward">+10 demo points</div>
+        </div>
+        <button id="task1" onclick="completeTask('task1',10,'Read today’s tip')">Start</button>
+      </div>
+    </div>
+
+    <div class="task">
+      <div class="task-row">
+        <div>
+          <h3>🛍️ Explore a local offer</h3>
+          <div class="small">View a sample shop promotion.</div>
+          <div class="reward">+15 demo points</div>
+        </div>
+        <button id="task2" onclick="completeTask('task2',15,'Explore a local offer')">Start</button>
+      </div>
+    </div>
+
+    <div class="task">
+      <div class="task-row">
+        <div>
+          <h3>💡 Learn an earning tip</h3>
+          <div class="small">Learn how to avoid online scams.</div>
+          <div class="reward">+5 demo points</div>
+        </div>
+        <button id="task3" onclick="completeTask('task3',5,'Learn an earning tip')">Start</button>
+      </div>
+    </div>
+    <div id="message" aria-live="polite"></div>
+  </section>
+
+  <section class="card">
+    <h2>🏪 Sponsored Offers</h2>
+    <span class="pill">Sample campaign</span>
+    <h3>Discover a Sahiwal business</h3>
+    <p>This is a sample promotion area. Real businesses and verified offers will be added after they agree to participate.</p>
+    <button class="secondary" onclick="alert('This is a demo. No real business or paid offer is connected yet.')">View sample offer</button>
+  </section>
+
+  <section class="card">
+    <h2>💸 Withdrawal Preview</h2>
+    <p>Check how a future withdrawal form might look. Submitting it only creates a local demo record.</p>
+    <div class="notice">No Easypaisa payment will be sent. Do not enter your phone number or financial details in this demo.</div>
+
+    <form id="withdrawForm">
+      <label for="withdrawPoints">Points to preview</label>
+      <select id="withdrawPoints">
+        <option value="100">100 points (demo)</option>
+        <option value="500">500 points (demo)</option>
+        <option value="1000">1,000 points (demo)</option>
+      </select>
+      <button type="submit">Preview request</button>
+    </form>
+    <div id="withdrawMessage" aria-live="polite"></div>
+  </section>
+
+  <section class="card">
+    <h2>📜 Recent Activity</h2>
+    <div id="history"><p class="small">No activity yet. Try a daily task!</p></div>
+    <button class="secondary" onclick="resetDemo()">Reset demo points</button>
+  </section>
+
+  <section class="card">
+    <h2>🔐 About this demo</h2>
+    <p class="small">This page stores sample points in your browser only. It has no user accounts, server, real advertisements, sponsor verification, or payment integration. Browser data can be cleared or changed, so it must not be used to approve real rewards.</p>
+  </section>
+</main>
+
+<footer>
+  Reward PK © 2026 · Demo project · Not a real payment service
+</footer>
+
+<script>
+const STORAGE_KEY = "rewardPKDemo_v1";
+
+function today() {
+  const d = new Date();
+  return d.getFullYear() + "-" +
+    String(d.getMonth() + 1).padStart(2, "0") + "-" +
+    String(d.getDate()).padStart(2, "0");
+}
+
+function freshState() {
+  return { points: 0, day: today(), completed: [], history: [] };
+}
+
+function loadState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if (saved && typeof saved.points === "number") {
+      if (saved.day !== today()) {
+        saved.day = today();
+        saved.completed = [];
+      }
+      saved.history = Array.isArray(saved.history) ? saved.history : [];
+      saved.completed = Array.isArray(saved.completed) ? saved.completed : [];
+      return saved;
+    }
+  } catch (e) {}
+  return freshState();
+}
+
+let state = loadState();
+
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (e) {
+    document.getElementById("message").textContent =
+      "Browser storage is unavailable. Demo progress may not be saved.";
+  }
+}
+
+function addHistory(text) {
+  state.history.unshift({
+    text: text,
+    time: new Date().toLocaleString()
+  });
+  state.history = state.history.slice(0, 12);
+}
+
+function completeTask(id, reward, name) {
+  if (state.completed.includes(id)) {
+    document.getElementById("message").textContent =
+      "You have already tried this task today.";
+    return;
+  }
+
+  state.completed.push(id);
+  state.points += reward;
+  addHistory(name + " (+" + reward + " demo points)");
+  saveState();
+  render();
+
+  document.getElementById("message").textContent =
+    "Demo task complete! " + reward + " points added.";
+}
+
+function render() {
+  document.getElementById("points").textContent = state.points;
+
+  ["task1", "task2", "task3"].forEach(function(id) {
+    const btn = document.getElementById(id);
+    const done = state.completed.includes(id);
+    btn.disabled = done;
+    btn.textContent = done ? "Completed" : "Start";
+  });
+
+  const history = document.getElementById("history");
+  if (state.history.length === 0) {
+    history.innerHTML = '<p class="small">No activity yet. Try a daily task!</p>';
+  } else {
+    history.replaceChildren();
+    state.history.forEach(function(item) {
+      const div = document.createElement("div");
+      div.className = "history-item";
+      const strong = document.createElement("strong");
+      strong.textContent = item.text;
+      const time = document.createElement("div");
+      time.className = "small";
+      time.textContent = item.time;
+      div.appendChild(strong);
+      div.appendChild(time);
+      history.appendChild(div);
+    });
+  }
+}
+
+document.getElementById("withdrawForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const amount = document.getElementById("withdrawPoints").value;
+  document.getElementById("withdrawMessage").textContent =
+    "Demo preview only: " + amount +
+    " points selected. No request was sent and no payment will be made.";
+  addHistory("Previewed a demo withdrawal (" + amount + " points)");
+  saveState();
+  render();
+});
+
+function resetDemo() {
+  if (confirm("Reset all demo points and activity on this browser?")) {
+    state = freshState();
+    saveState();
+    document.getElementById("message").textContent = "Demo has been reset.";
+    document.getElementById("withdrawMessage").textContent = "";
+    render();
+  }
+}
+
+render();
+</script>
+</body>
+</html>
